@@ -127,3 +127,56 @@ def test_get_nonexistent_task(client):
     response = client.get("/tasks/999")
 
     assert response.status_code == 404
+
+
+def test_filter_tasks_by_status(client):
+    client.post(
+        "/tasks/",
+        json={"title": "Tarefa pendente", "status": "A Fazer"}
+    )
+
+    client.post(
+        "/tasks/",
+        json={"title": "Tarefa concluída", "status": "Concluído"}
+    )
+
+    response = client.get("/tasks/?status=A Fazer")
+
+    assert response.status_code == 200
+    assert len(response.json()) == 1
+    assert response.json()[0]["title"] == "Tarefa pendente"
+
+
+def test_filter_completed_tasks(client):
+    client.post(
+        "/tasks/",
+        json={"title": "Tarefa pendente", "status": "A Fazer"}
+    )
+
+    client.post(
+        "/tasks/",
+        json={"title": "Tarefa concluída", "status": "Concluído"}
+    )
+
+    response = client.get("/tasks/?status=Concluído")
+
+    assert response.status_code == 200
+    assert len(response.json()) == 1
+    assert response.json()[0]["title"] == "Tarefa concluída"
+
+
+def test_list_all_tasks_without_filter(client):
+    client.post(
+        "/tasks/",
+        json={"title": "Tarefa pendente", "status": "A Fazer"}
+    )
+
+    client.post(
+        "/tasks/",
+        json={"title": "Tarefa concluída", "status": "Concluído"}
+    )
+
+    response = client.get("/tasks/")
+
+    assert response.status_code == 200
+    assert len(response.json()) == 2

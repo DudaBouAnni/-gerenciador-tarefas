@@ -35,8 +35,16 @@ def create_task(task_data: TaskCreate, db: Session = Depends(get_db)):
     return new_task
 
 @router.get("/")
-def list_tasks(db: Session = Depends(get_db)):
-    return db.query(Task).all()
+def list_tasks(
+    status: Optional[Literal["A Fazer", "Em Progresso", "Concluído"]] = None,
+    db: Session = Depends(get_db)
+):
+    query = db.query(Task)
+
+    if status is not None:
+        query = query.filter(Task.status == status)
+
+    return query.all()
 
 @router.get("/{task_id}")
 def get_task(task_id: int, db: Session = Depends(get_db)):
