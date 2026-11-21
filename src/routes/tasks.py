@@ -1,5 +1,5 @@
 
-from typing import Optional, Literal
+from typing import Literal
 
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
@@ -8,21 +8,20 @@ from sqlalchemy.orm import Session
 from src.database import get_db
 from src.models.task import Task
 
-
 router = APIRouter(prefix="/tasks", tags=["Tarefas"])
 
 
 class TaskCreate(BaseModel):
     title: str = Field(min_length=1, max_length=100)
-    description: Optional[str] = None
+    description: str | None = None
     priority: Literal["baixa", "média", "alta"] = "média"
     status: Literal["A Fazer", "Em Progresso", "Concluído"] = "A Fazer"
 
 class TaskUpdate(BaseModel):
-    title: Optional[str] = Field(default=None, min_length=1, max_length=100)
-    description: Optional[str] = None
-    priority: Optional[Literal["baixa", "média", "alta"]] = None
-    status: Optional[Literal["A Fazer", "Em Progresso", "Concluído"]] = None
+    title: str | None = Field(default=None, min_length=1, max_length=100)
+    description: str | None = None
+    priority: Literal["baixa", "média", "alta"] | None = None
+    status: Literal["A Fazer", "Em Progresso", "Concluído"] | None = None
 
 @router.post("/")
 def create_task(task_data: TaskCreate, db: Session = Depends(get_db)):
@@ -36,7 +35,7 @@ def create_task(task_data: TaskCreate, db: Session = Depends(get_db)):
 
 @router.get("/")
 def list_tasks(
-    status: Optional[Literal["A Fazer", "Em Progresso", "Concluído"]] = None,
+    status: Literal["A Fazer", "Em Progresso", "Concluído"] | None = None,
     db: Session = Depends(get_db)
 ):
     query = db.query(Task)

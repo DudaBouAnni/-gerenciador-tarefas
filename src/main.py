@@ -1,9 +1,8 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from fastapi import Request
 
-from src.database import engine, Base
+from src.database import Base, engine
 from src.routes.tasks import router as tasks_router
 
 Base.metadata.create_all(bind=engine)
