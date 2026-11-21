@@ -180,3 +180,10 @@ def test_list_all_tasks_without_filter(client):
 
     assert response.status_code == 200
     assert len(response.json()) == 2
+
+def test_home_page(client):
+    response = client.get("/")
+
+    assert response.status_code == 200
+    assert "TaskFlow" in response.text
+    assert "Nova tarefa" in response.text
