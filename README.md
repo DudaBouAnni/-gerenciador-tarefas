@@ -2,7 +2,7 @@
 
 ## Descrição do projeto
 
-O TaskFlow é um sistema de gerenciamento de tarefas desenvolvido como projeto acadêmico de Engenharia de Software. Seu objetivo é permitir o cadastro, a consulta, a atualização e a exclusão de tarefas.
+O TaskFlow é um sistema de gerenciamento de tarefas desenvolvido como projeto acadêmico de Engenharia de Software. Seu objetivo é permitir o cadastro, a consulta, a atualização e a exclusão de tarefas por meio de uma interface web e de uma API.
 
 ## Tecnologias utilizadas
 
@@ -10,7 +10,10 @@ O TaskFlow é um sistema de gerenciamento de tarefas desenvolvido como projeto a
 - FastAPI
 - SQLite
 - SQLAlchemy
+- HTML, CSS e JavaScript
+- Jinja2
 - Pytest
+- Ruff
 - Git e GitHub
 - GitHub Actions
 
@@ -23,6 +26,7 @@ O TaskFlow é um sistema de gerenciamento de tarefas desenvolvido como projeto a
 - Excluir tarefas.
 - Definir prioridade e status das tarefas.
 - Filtrar tarefas pelo status.
+- Gerenciar tarefas por meio de uma interface web.
 
 ## Como executar o projeto
 
@@ -37,24 +41,43 @@ pip install -r requirements.txt
 4. Execute a aplicação:
 
 ```bash
-uvicorn src.main:app --reload
+python -m uvicorn src.main:app --reload
 ```
 
-5. Acesse a documentação interativa da API em `http://127.0.0.1:8000/docs`.
+5. Acesse a aplicação pelo endereço:
+
+`http://127.0.0.1:8000`
+
+6. A documentação interativa da API está disponível em:
+
+`http://127.0.0.1:8000/docs`
 
 ## Testes automatizados
 
 Para executar os testes, utilize:
 
 ```bash
-pytest -v
+python -m pytest -v
 ```
 
-O projeto possui 10 testes automatizados para verificar as funcionalidades da aplicação.
+O projeto possui 11 testes automatizados com Pytest, responsáveis por verificar as funcionalidades da aplicação, incluindo operações CRUD, validações, filtros e acesso à página inicial.
+
+## Qualidade do código
+
+O projeto utiliza o Ruff para verificar a qualidade e a organização do código Python.
+
+Para executar a verificação manualmente:
+
+```bash
+python -m ruff check src tests
+```
 
 ## Integração contínua
 
-O GitHub Actions executa automaticamente os testes a cada envio de alterações ao repositório e em pull requests.
+O GitHub Actions executa automaticamente duas verificações a cada envio de alterações ao repositório e em pull requests:
+
+- Verificação da qualidade do código com Ruff.
+- Execução dos testes automatizados com Pytest.
 
 ## Mudança de escopo
 
