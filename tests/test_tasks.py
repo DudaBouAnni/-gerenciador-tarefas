@@ -186,3 +186,14 @@ def test_home_page(client):
     assert response.status_code == 200
     assert "TaskFlow" in response.text
     assert "Nova tarefa" in response.text
+
+def test_create_task_with_invalid_priority(client):
+    response = client.post(
+        "/tasks/",
+        json={
+            "title": "Tarefa com prioridade inválida",
+            "priority": "urgente demais"
+        }
+    )
+
+    assert response.status_code == 422
