@@ -197,3 +197,14 @@ def test_create_task_with_invalid_priority(client):
     )
 
     assert response.status_code == 422
+
+def test_create_task_with_invalid_status(client):
+    response = client.post(
+        "/tasks/",
+        json={
+            "title": "Tarefa com status inválido",
+            "status": "Em espera"
+        }
+    )
+
+    assert response.status_code == 422
